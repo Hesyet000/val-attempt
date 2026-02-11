@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Boo, Will you be my Valentine?</title>
 
-  
   <!-- Confetti library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
@@ -110,8 +109,8 @@
       animation: pop .35s ease;
     }
 
-    .result h2 {
-      font-size: clamp(30px, 4.5vw, 46px);
+    .result h2, .result h3 {
+      font-size: clamp(26px, 4.5vw, 40px);
       margin: 10px 0;
     }
 
@@ -119,6 +118,15 @@
       width: min(380px, 90vw);
       margin: 0 auto;
       display: block;
+    }
+
+    /* NEW: button shown after Yes */
+    .plan-btn {
+      position: static;
+      transform: none;
+      margin-top: 16px;
+      background: #111827;
+      color: #fff;
     }
 
     @keyframes pop {
@@ -179,11 +187,28 @@
     <div class="hint" id="hint">Don't you dare click No</div>
 
     <section class="result" id="result">
-      <h2>I knew you'd say Yes! 🎉</h2>
+      <h3>I knew you'd say Yes 🎉</h3>
+
+      <!-- ORIGINAL GIF -->
       <img
+        id="gif1"
         class="fireworks"
-        src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3b2Jsa2Q5dWlsYnJ2MnA4cXFvYzJydHJlMW1jZWs0cDA3c2t5cTk1cyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/CloBIMzf3O3lKxz9DC/giphy.gif"
+        src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdTE0b25vYmp0bmEwc3BwZHd2ZHRveXVqcGZ4M2RseDZ6azBmY2dpZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/CloBIMzf3O3lKxz9DC/giphy.gif"
         alt="Fireworks"
+      />
+
+      <!-- NEW BUTTON -->
+      <button id="planBtn" class="plan-btn">
+        Click to know the plan
+      </button>
+
+      <!-- NEW GIF (hidden initially) -->
+      <img
+        id="gif2"
+        class="fireworks"
+        style="display:none"
+        src="https://media.giphy.com/media/7YbfOkTF24b735dDDs/giphy.gif"
+        alt="Plan"
       />
     </section>
   </main>
@@ -196,6 +221,11 @@
     const hint = document.getElementById("hint");
     const question = document.getElementById("question");
 
+    /* NEW ELEMENTS */
+    const planBtn = document.getElementById("planBtn");
+    const gif1 = document.getElementById("gif1");
+    const gif2 = document.getElementById("gif2");
+
     const confettiCanvas = document.getElementById("confettiCanvas");
 
     function resizeConfettiCanvas() {
@@ -204,7 +234,7 @@
       confettiCanvas.height = Math.floor(window.innerHeight * dpr);
       confettiCanvas.style.width = "100vw";
       confettiCanvas.style.height = "100vh";
-   }
+    }
 
     resizeConfettiCanvas();
     window.addEventListener("resize", resizeConfettiCanvas);
@@ -282,7 +312,6 @@
 
     noBtn.addEventListener("click", e => e.preventDefault());
 
-    /* ---------- YES CLICK ---------- */
     yesBtn.addEventListener("click", () => {
       zone.style.display = "none";
       hint.style.display = "none";
@@ -291,9 +320,13 @@
       resizeConfettiCanvas();
       fullScreenConfetti();
     });
+
+    /* NEW BUTTON LOGIC */
+    planBtn.addEventListener("click", () => {
+      gif1.style.display = "none";
+      planBtn.style.display = "none";
+      gif2.style.display = "block";
+    });
   </script>
 </body>
 </html>
-
-
-
